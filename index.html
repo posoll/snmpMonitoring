@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="description" content="">
+    <meta name="author" content="Chetas Bhardiya">
+
+    <title>Shuffle and sort by Chetas B</title>
+
+    <!--  CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/global.css" rel="stylesheet">
+ 
+  </head>
+
+  <body>
+    <!-- header start -->
+    <div class="header col-xs-12 col-sm-12 col-md-12">
+      <h4>Shuffle and Sort</h4>
+    </div>
+    <!-- header end -->
+
+    <!-- buttons for small screen start -->
+    <div class="buttons-small-screen col-xs-12">
+      <div class="col-xs-3 btn btn-primary margin-left-small" onclick="shuffleElements(array,colors)">SHUFFLE</div>
+      <div class="col-xs-3 btn btn-primary" onclick="sortElements(array)">SORT</div>
+    </div>
+    <!-- buttons for small screen end -->
+
+    <!-- parent container for child divs start  -->
+    <div id="container" class="col-xs-12 col-sm-9 col-md-9 pull-left">
+    </div>
+    <!-- parent container for child divs end  -->
+
+    <!-- buttons for large screen start -->
+    <div class="buttons-large-screen col-sm-3 col-md-3 pull-right">
+      <div class="col-sm-9 col-md-9 btn btn-primary" onclick="shuffleElements(array,colors)">SHUFFLE</div>
+      <div class="col-sm-9 col-md-9 btn btn-primary" onclick="sortElements(array)">SORT</div>
+    </div>
+    <!-- buttons for large screen end -->
+
+    <!-- footer start -->
+    <div class="credits col-xs-12 col-sm-12 col-md-12"><i>Shuffle and sort by Chetas B </i></div>
+    <!-- footer end -->
+  
+
+  <script type="text/javascript">
+    //Array , Colors defined
+    var array = [1,2,3,4,5,6,7,8,9];
+    var colors = ["#6f98a8","#2b8ead","#2e444d","#2b8ead","#2f454e","#bfbfbf","#bfbfbf","#6e97a7","#2f454e"];
+    var parentDiv = document.getElementById('container');
+    
+    // Create Divs 
+    function generateDiv(array,colors){
+      for(var i=0;i<=array.length-1;i++){
+        var childDiv = document.createElement("div");
+        childDiv.innerHTML = array[i];
+        childDiv.className = "col-xs-12 col-sm-4 col-md-4"
+        childDiv.id = "card-"+i;
+        if(window.innerWidth < 768){
+          //apply gradient on small screens
+          colorApply = 'linear-gradient(to right, '+colors[i]+' 0px,'+colors[i]+' 7px, #EFEFEF 7px, #EFEFEF 100px)'
+          childDiv.style.background = colorApply;
+        }
+        else{
+          //apply solid colors on large screens
+          childDiv.style.background = colors[i];
+        }
+        
+        document.body.appendChild(childDiv);
+        parentDiv.appendChild(childDiv);
+      }
+    }
+
+    //onload create divs
+    generateDiv(array,colors);
+
+    // on screen resize update divs
+    function screenResized(){
+      document.getElementById("container").innerHTML = "";
+      generateDiv(array,colors);
+    }
+
+    //window resize event
+    window.addEventListener("resize", screenResized);
+
+    //sort elements and colors to default
+    function sortElements(array) {
+      document.getElementById("container").innerHTML = "";
+      array.sort();
+      colors = ["#6f98a8","#2b8ead","#2e444d","#2b8ead","#2f454e","#bfbfbf","#bfbfbf","#6e97a7","#2f454e"];
+      generateDiv(array,colors);
+    }
+
+    //shuffle array elements and colors 
+    function shuffleElements(array,colors) {
+      document.getElementById("container").innerHTML = "";
+      getShuffled(array);
+      getShuffled(colors);
+      generateDiv(array,colors);
+    }
+
+    //common shuffle function
+    function getShuffled(item){
+      for (var i = item.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var moveHere = item[i];
+          item[i] = item[j];
+          item[j] = moveHere;
+      }
+      return item;
+    }
+    
+  </script>
+    
+  </body>
+</html>
